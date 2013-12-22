@@ -1,0 +1,36 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+GET		/                           controllers.Application.index()
+
+
+# Models routes
+POST	/user/add 		controllers.Utilisateurs.add()
+POST	/user/modifier 		controllers.Utilisateurs.modifier()
+POST	/tweet/add 		controllers.Tweets.add()
+
+# Authentication
+GET     /login                              controllers.Authentication.login()
+POST    /login                              controllers.Authentication.authenticate()
+GET     /logout                             controllers.Authentication.logout()
+#formulaire d'inscription
+GET		/inscription						controllers.Inscription.index()
+
+GET		/perso/:username								controllers.Pageperso.index(username)
+#Recherche
+GET		/search/:recherche						controllers.Profil.index(recherche)
+#Profil
+GET		/Profil/:username							controllers.Perso.index(username)
+GET		/profil/							controllers.Profil.modification()
+GET		/sujetlist/:sujet						controllers.Sujets.affSujet(sujet)
+#Abonnement
+GET    /abonnement/:username                                   	     controllers.Abonnements.abonnement(username)
+GET    /abonne/:username                                   	     controllers.Abonnements.abonne(username)
+POST   /abonne/add                                       controllers.Abonnements.add()
+
+
+
+# Map static resources from the /public folder to the /assets URL path
+GET     /assets/*file               controllers.Assets.at(path="/public", file)

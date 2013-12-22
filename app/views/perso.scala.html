@@ -1,0 +1,43 @@
+@(
+message: String,
+profutilisateur: Utilisateur,
+tweets: List[models.Tweet],
+connectuser: Utilisateur,
+isEditable: Boolean 
+)
+@main("Gestion des comptes",connectuser) {
+
+<h3> @message @profutilisateur.username<span>(@profutilisateur.email)</span> </h3>
+
+<fieldset>
+<h4>Tweets</h4>
+ <table class="table table-striped">
+        
+                <tr>                     
+                        <td>Date</td>
+                        <td>Tweet</td>
+                </tr>
+                
+        @for((tweet, i) <- tweets.zipWithIndex.reverse) {
+                <tr>
+                        <td>@tweet.creationDate</td>
+                        <td>@tweet.label</td>
+                </tr>
+        }
+        </table>
+</fieldset>
+
+
+<a href="@routes.Abonnements.abonnement(profutilisateur.username)">Abonnements</a></br>
+<a href="@routes.Abonnements.abonne(profutilisateur.username)">Abonnés</a>
+
+
+@if(connectuser == profutilisateur || isEditable == false ){
+
+}else{
+<form method="post" action="/abonne/add">
+			<input type="hidden" name="username_ajout" value="@profutilisateur.username">
+			<button type="submit" class="btn">Faire suivre</button>	
+</form>
+}
+}

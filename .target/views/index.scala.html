@@ -1,0 +1,65 @@
+@(
+message: String,
+utilisateur: Utilisateur,
+tweets: List[models.Tweet]
+)
+<!-- index "appelle" main en lui passant en paramètre le titre de la page et le contenu HTML -->
+@main("Gestion des comptes",utilisateur) {
+	    
+      <!--  Formulaire des Tweets-->
+	<fieldset>
+		<h2> Nouveau Tweet </h2>
+		<form method="post" action="/tweet/add">
+				<table>
+					<tr>
+						<td colspan="2" align="center">
+						<textarea cols="50" rows="5" name="contenu" placeholder="écrire un nouveau Tweet"></textarea>
+						</td>
+					</tr>
+<!-- 					<tr> -->
+<!-- 						<td>Ajoute un sujet?</td> -->
+<!-- 						<td><input type="text" name="sujet"  placeholder="vous pouvez ajouter un sujet."></td> -->
+<!-- 					</tr> -->
+					<tr>
+						<td><input type="hidden" name="username" value="@utilisateur.username"> </td>
+						<td align="right" ><button type="submit" class="btn">publier</button></td>
+					</tr>	
+				</table>	
+		</form>
+	</fieldset>
+	<!-- Liste des Tweets -->
+	 <table class="table table-striped">
+        
+                <tr>
+                        <td>Date</td>
+                        <td>Username</td>
+                        <td>Tweet</td>
+                        <td>userTagé</td>
+                </tr>
+                
+        @for((tweet, i) <- tweets.zipWithIndex.reverse) {
+                <tr>
+                        <td>@tweet.creationDate</td>
+                        <td>@tweet.user.username</td>
+                        @if(tweet.sujet!=""){
+                        <td>@Html((tweet.label).replace("\n","<br/>"))<a href="@routes.Sujets.affSujet(tweet.sujet)">#@tweet.sujet</a></td>
+                        }else{
+                        <td>@Html((tweet.label).replace("\n","<br/>"))</td>
+                        }
+                        <td>@tweet.Taguser</td>
+                </tr>
+        }
+        </table>
+        
+        Il y a au total @tweets.size tweets.
+     <!-- message d'erreur si l'utilisateur ne respecte pas les contraintes faite sur le modele   -->
+      
+    </ul> 
+     @if(flash.containsKey("error")) {
+        <div class="alert alert-error"> <!-- ceci est un style twitter bootstrap -->
+            <strong>Oups!</strong> @flash.get("error")
+        </div>
+    }
+       
+
+}

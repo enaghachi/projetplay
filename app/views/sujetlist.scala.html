@@ -1,0 +1,24 @@
+@(
+message: String,
+s: String,
+user : Utilisateur,
+sujetTweets: List[models.Tweet]
+)
+@main("Sujet",user) {
+<fieldset>
+		<legend>@s</legend>
+			<table>
+			 @for((tweet,i) <- sujetTweets.zipWithIndex){
+            	@if(tweet.sujet.equals(s)){
+			<tr>
+			<td>
+			@tweet.user.username
+			</td>
+			<td>
+			@tweet.label<a href='http://localhost:9000/sujetlist/@tweet.sujet'>#@tweet.sujet#</a>
+			</td>
+			</tr>
+				}}
+			</table>	
+</fieldset>
+}

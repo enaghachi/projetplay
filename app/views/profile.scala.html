@@ -1,0 +1,40 @@
+@(
+message: String,
+utilisateur: Utilisateur,
+utilisa : Utilisateur,
+userconnect :Utilisateur
+)
+<!-- index "appelle" main en lui passant en paramètre le titre de la page et le contenu HTML -->
+
+@main("Gestion des comptes", userconnect) {
+
+
+<h2> @message </h2>
+
+	 <table class="table table-striped">
+        
+                <tr>
+                        <td>Adresse Email</td>
+                        <td>Username</td>
+                </tr>
+                @if(utilisa != null){
+                		<tr>
+		                        <td>@utilisa.email</td>
+		                        <td>@utilisa.username</td>
+		
+		                </tr>
+	</table>   		 		
+   } else {
+
+						<tr>
+			                        <td><a href='@routes.Perso.index(utilisateur.username)'>@utilisateur.username</a></td>
+			                        <td>@utilisateur.username</td>
+			
+			    		</tr>
+			    }
+			    
+	</table>
+	             	 
+                            
+ }
+ 

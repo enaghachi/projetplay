@@ -1,0 +1,26 @@
+@(
+message: String,
+Utilisateurs: List[models.Utilisateur]
+)
+@main("Gestion des comptes",null) {
+	<h1>Nouveau sur Twitter ? Inscrivez-vous</h1>
+	<h6>@message</h6>
+	<!--  Formulaire d'inscription-->
+	<fieldset>
+		<h2> Nouveau Utilisateur <h2> 
+		<form method="post" action="/user/add">
+			<input type="text" name="username" placeholder="username"><br>
+			<select name ="sexe">
+			<option value="male">Male</option>
+			<option value="female">Female</option></select><br>
+			<input type="email" name="email" placeholder="Email"><br>
+			<input type="password" name="password" placeholder="password"><br>
+			<button type="submit" class="btn">S'inscrire sur Twitter</button>
+		</form>
+	</fieldset>
+	<ul>
+	@for(utilisateur <- Utilisateurs) {
+                <li>@utilisateur.email  @utilisateur.username @utilisateur.password @utilisateur.date_inscription  </li>
+            }
+            </ul>
+	}

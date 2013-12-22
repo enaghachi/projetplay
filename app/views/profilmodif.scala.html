@@ -1,0 +1,27 @@
+@(
+message: String,
+user : Utilisateur
+)
+@main("Modification de Profil",user) {
+<form method="post" action="/user/modifier">
+<table>
+<tr><td>PHOTO</td><td>changer votre photo</td></tr>
+<tr>
+<td>Votre nom de utilisateur:</td>
+<td><input type="text" name="username" placeholder="@user.username"></td>
+</tr>
+<tr>
+<td>Mot de Passe:</td>
+<td><input type="password" name="password" placeholder="password"></td>
+</tr>
+<tr>
+<td>Description:</td>
+<td><input type="text" name="description" placeholder="@user.description"></td>
+</tr>
+<tr>
+<td></td>
+<td><button type="submit" class="btn">Validez votre modification</button></td>
+</tr>
+</table>
+</form>
+}
