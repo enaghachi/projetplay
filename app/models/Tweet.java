@@ -5,6 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.*;
+
+import com.avaje.ebean.Ebean;
+
 import play.db.ebean.Model;
 import play.db.ebean.Model.Finder;
 
@@ -24,7 +27,7 @@ public class Tweet extends Model {
 	public Utilisateur user;
 	
 
-	 public Tweet() {
+	public Tweet() {
 		super();
 	}
 
@@ -36,17 +39,31 @@ public class Tweet extends Model {
 	}
 
 	public static Finder<Long, Tweet> find = 
-             new Finder<Long, Tweet>(Long.class, Tweet.class);
+            new Finder<Long, Tweet>(Long.class, Tweet.class);
 	
 	public static List<Tweet> findall(){
 		return find.all();
+	}
+	public static List<Tweet> findByEmail(String email) {
+       return find.where().eq("Tweet_userID", email).findList();
 	}
 	public static List<Tweet> findByusername(String username) {
         return find.where().eq("Tweet_userID", username).findList();
     }
 	//lister les tweet avec ce sujet
-		public static List<Tweet> findBySujet(String sujet) {
-			return find.where().eq("sujet",sujet).findList();
-		}
+	public static List<Tweet> findBySujet(String sujet) {
+		return find.where().eq("sujet",sujet).findList();
+	}
+	public static Tweet findById(long id){
+		return find.byId(id);
+	}
+	
+	public static void supprimer(Long id){
+		Tweet tweet =Ebean.find(Tweet.class).select("*").where().idEq(id).findUnique();
+		Ebean.delete(tweet);
+	 }
 
 }
+
+
+

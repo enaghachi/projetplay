@@ -10,6 +10,7 @@ GET		/                           controllers.Application.index()
 POST	/user/add 		controllers.Utilisateurs.add()
 POST	/user/modifier 		controllers.Utilisateurs.modifier()
 POST	/tweet/add 		controllers.Tweets.add()
+POST	/tweet/addCommentaire	controllers.Tweets.addCommentaire()
 
 # Authentication
 GET     /login                              controllers.Authentication.login()
@@ -23,7 +24,7 @@ GET		/perso/:username								controllers.Pageperso.index(username)
 GET		/search/:recherche						controllers.Profil.index(recherche)
 #Profil
 GET		/Profil/:username							controllers.Perso.index(username)
-GET		/profil/							controllers.Profil.modification()
+#GET		/profil/:username 					controllers.Profil.modification(username)
 GET		/sujetlist/:sujet						controllers.Sujets.affSujet(sujet)
 #Abonnement
 GET    /abonnement/:username                                   	     controllers.Abonnements.abonnement(username)

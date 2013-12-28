@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import models.Commentaire;
 import models.Tweet;
 import models.Utilisateur;
 import play.mvc.*;
@@ -60,5 +61,21 @@ public class Tweets extends Controller {
 		 tweet.save();
 		 return redirect(routes.Pageperso.index(username));
      }
+	 public static Result deletTweet(long id){
+		 Tweet.supprimer(id);
+		 return redirect(routes.Pageperso.index(session("username")));
+	 }
+	 public static Result addCommentaire(){
+		 DynamicForm requestfdata = Form.form().bindFromRequest();
+		 Commentaire comm =new Commentaire();
+		 Long idTweet = Long.parseLong(requestfdata.get("idTweet"));	 
+		 comm.label=requestfdata.get("commentaire");
+		 String username =requestfdata.get("username");
+		 comm.user =Utilisateur.findByusernameUnique(requestfdata.get("username"));
+		 comm.tweet=Tweet.findById(idTweet);
+		 comm.creationDate=new Date();
+		 comm.save();
+		 return redirect(routes.Pageperso.index(username));
+	 }
 
 }

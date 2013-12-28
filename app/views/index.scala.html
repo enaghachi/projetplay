@@ -1,60 +1,124 @@
 @(
 message: String,
 utilisateur: Utilisateur,
-tweets: List[models.Tweet]
+tweets: List[models.Tweet],
+commentaires: List[models.Commentaire]
 )
 <!-- index "appelle" main en lui passant en paramètre le titre de la page et le contenu HTML -->
 @main("Gestion des comptes",utilisateur) {
-	    
-      <!--  Formulaire des Tweets-->
-	<fieldset>
-		<h2> Nouveau Tweet </h2>
-		<form method="post" action="/tweet/add">
-				<table>
-					<tr>
-						<td colspan="2" align="center">
-						<textarea cols="50" rows="5" name="contenu" placeholder="écrire un nouveau Tweet"></textarea>
-						</td>
-					</tr>
-<!-- 					<tr> -->
-<!-- 						<td>Ajoute un sujet?</td> -->
-<!-- 						<td><input type="text" name="sujet"  placeholder="vous pouvez ajouter un sujet."></td> -->
-<!-- 					</tr> -->
-					<tr>
-						<td><input type="hidden" name="username" value="@utilisateur.username"> </td>
-						<td align="right" ><button type="submit" class="btn">publier</button></td>
-					</tr>	
-				</table>	
-		</form>
-	</fieldset>
-	<!-- Liste des Tweets -->
-	 <table class="table table-striped">
-        
-                <tr>
-                        <td>Date</td>
-                        <td>Username</td>
-                        <td>Tweet</td>
-                        <td>userTagé</td>
-                </tr>
-                
-        @for((tweet, i) <- tweets.zipWithIndex.reverse) {
-                <tr>
-                        <td>@tweet.creationDate</td>
-                        <td>@tweet.user.username</td>
-                        @if(tweet.sujet!=""){
-                        <td>@Html((tweet.label).replace("\n","<br/>"))<a href="@routes.Sujets.affSujet(tweet.sujet)">#@tweet.sujet</a></td>
-                        }else{
-                        <td>@Html((tweet.label).replace("\n","<br/>"))</td>
-                        }
-                        <td>@tweet.Taguser</td>
-                </tr>
+<div id="logo_nav">
+    <div class="bg1">
+      <div class="center_frame"> 
+        <!--Logo And Navigation Start Here-->
+        <div class="logo"> <img src="@routes.Assets.at("bootstrap/img/logo.png")" alt=""  /> </div>
+        @if(utilisateur != null){
+        <ul id="navigation">
+          <li><a href="@routes.Pageperso.index(utilisateur.username)"><span>HOME</span></a></li>
+         <li><a href="#"><span>Ma page</span></a></li>
+          <li><a href="#"><span>Mes Amis</span></a></li>
+          <li><a href="services.html"><span>Mes Abonnes</span></a></li>
+          <li><a href="contact.html"><span>Contact</span></a></li>
+        </ul>
         }
-        </table>
+        <!--Logo And Navigation End Here--> 
+        <!--slider here-->
         
-        Il y a au total @tweets.size tweets.
-     <!-- message d'erreur si l'utilisateur ne respecte pas les contraintes faite sur le modele   -->
+        <!--  Outer wrapper for presentation only, this can be anything you like -->
+        <div id="infoPerson"> 
+			<table>
+			<tr><td id="name_bien">Bienvenu @utilisateur.username</td></tr>
+			<tr><td><img url=""></td></tr>
+			<tr><td id="description">@utilisateur.description</td></tr>
+			</table>
+        </div>
+        <!-- End outer wrapper --> 
+        
+        <!--slider end here--> 
+        
+      </div>
+    </div>
+  </div>
+</div>
+<!--Header End Here--> 
+<!--Wrapper Start Here-->
+<div id="wrapper">
+  <div id="wrapper_top">
+    <div class="center_frame">
+      <div class="section_left">
+        <h5>Nouveau Tweet</h5>
+      </div>
+      <div class="section_middle">
       
-    </ul> 
+        <table>
+        <form method="post" action="/tweet/add">
+				<tr>
+					<td colspan="2" align="center">
+					<textarea cols="50" rows="8" name="label" placeholder="écrire un nouveau Tweet"></textarea>
+					</td>
+				</tr>
+				<tr>
+					<td><input type="hidden" name="user_email" value="@utilisateur.email"> </td>
+					<td align="right" ><input  type="submit" class="button gray medium" value="Publier"> </td>
+				</tr>	
+			</form>
+		</table>
+	  	
+      </div>
+    </div>
+  </div>
+    <!--Top Wrapper End Here--> 
+  <!--Main Contant Start Here-->
+  <div id="main_contant">
+    <div class="center_frame">
+      <h2>Les tweets</h2>
+      
+			 @for((tweet, i) <- tweets.zipWithIndex.reverse) {
+			 <form method="post" action="/tweet/addCommentaire">
+			  <div class="box_2"> <img src="@routes.Assets.at("bootstrap/img/box_2.png")" alt=""  class="main_img_2" />
+				<div class="text">
+				  <h6>@tweet.user.username</h6>
+				  <h5>@tweet.creationDate</h5>
+				   @if(tweet.sujet!=""){
+				  <p>@Html((tweet.label).replace("\n","<br/>"))<a href="@routes.Sujets.affSujet(tweet.sujet)">#@tweet.sujet</a> @tweet.Taguser
+				  }else{
+				  <p>@Html((tweet.label).replace("\n","<br/>")) @tweet.Taguser
+				  }
+				  <ul>
+				  @for((commentaire, i)<-commentaires.zipWithIndex.reverse){
+				 	<li>@commentaire.user.username : @commentaire.label </li>
+				 	}
+				  </ul>
+				  <input type="hidden" name="idTweet" value="@tweet.id">
+				  <input type="hidden" name="username" value="@utilisateur.username">
+				  <textarea cols="50" rows="3" name="commentaire" placeholder="Mettre un commentaire"></textarea>
+				  <input  type="submit" class="button gray medium" value="Publier"></p>
+				  </form>
+				  }
+          
+           </div>
+           
+          
+	  </div> 
+	  
+       
+		</div>
+	  </div>
+
+  <!-- Main Contant End Here --> 
+</div>
+<!--Wrapper End Here--><div id="footer">
+ 
+  <div id="copyrights">
+    <div><p>Les nom de notre groupe et membre</p></div>
+  </div>
+</div>
+</div>
+
+
+
+
+
+
      @if(flash.containsKey("error")) {
         <div class="alert alert-error"> <!-- ceci est un style twitter bootstrap -->
             <strong>Oups!</strong> @flash.get("error")

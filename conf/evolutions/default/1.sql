@@ -11,6 +11,15 @@ create table abonnement (
   constraint pk_abonnement primary key (id))
 ;
 
+create table commentaire (
+  id                        bigint not null,
+  creation_date             timestamp,
+  label                     varchar(255),
+  Comm_username             varchar(255),
+  Comm_tweetID              bigint,
+  constraint pk_commentaire primary key (id))
+;
+
 create table tweet (
   id                        bigint not null,
   num                       integer,
@@ -35,14 +44,20 @@ create table utilisateur (
 
 create sequence abonnement_seq;
 
+create sequence commentaire_seq;
+
 create sequence tweet_seq;
 
 create sequence utilisateur_seq;
 
 alter table abonnement add constraint fk_abonnement_user_1 foreign key (Proprio_username) references utilisateur (username) on delete restrict on update restrict;
 create index ix_abonnement_user_1 on abonnement (Proprio_username);
-alter table tweet add constraint fk_tweet_user_2 foreign key (Tweet_userID) references utilisateur (username) on delete restrict on update restrict;
-create index ix_tweet_user_2 on tweet (Tweet_userID);
+alter table commentaire add constraint fk_commentaire_user_2 foreign key (Comm_username) references utilisateur (username) on delete restrict on update restrict;
+create index ix_commentaire_user_2 on commentaire (Comm_username);
+alter table commentaire add constraint fk_commentaire_tweet_3 foreign key (Comm_tweetID) references tweet (id) on delete restrict on update restrict;
+create index ix_commentaire_tweet_3 on commentaire (Comm_tweetID);
+alter table tweet add constraint fk_tweet_user_4 foreign key (Tweet_userID) references utilisateur (username) on delete restrict on update restrict;
+create index ix_tweet_user_4 on tweet (Tweet_userID);
 
 
 
@@ -52,6 +67,8 @@ SET REFERENTIAL_INTEGRITY FALSE;
 
 drop table if exists abonnement;
 
+drop table if exists commentaire;
+
 drop table if exists tweet;
 
 drop table if exists utilisateur;
@@ -59,6 +76,8 @@ drop table if exists utilisateur;
 SET REFERENTIAL_INTEGRITY TRUE;
 
 drop sequence if exists abonnement_seq;
+
+drop sequence if exists commentaire_seq;
 
 drop sequence if exists tweet_seq;
 

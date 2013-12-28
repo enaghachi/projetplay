@@ -2,9 +2,20 @@
 
     @main("Authentification", null) {
 
-        @helper.form(routes.Authentication.authenticate) {
+  <!--Top Header End Here-->
+  <div id="logo_nav">
+    <div class="bg">
+      <div class="center_frame"> 
+        <!--Logo And Navigation Start Here-->
+        <div class="logo"> <a href="@routes.Application.index()"><img src="@routes.Assets.at("bootstrap/img/logo.png")" alt=""  /></a> </div>
+        <!--Logo And Navigation End Here--> 
+        <!--CHANGE ONLY THIS PART HERE--> 
+        
+        <!--Project Top Start Here -->
+        <div id="login_detail">
+		@helper.form(routes.Authentication.authenticate) {
 
-            <h2>Qui êtes vous ?</h2>
+            <h6>Login</h6>
 
             @if(form.hasGlobalErrors) { 
                 <p class="error">@form.globalError.message</p>
@@ -14,12 +25,33 @@
                 <p class="success">@flash.get("success")</p>
             }
 
-            <p><input type="email" name="email" placeholder="Email" 
-                value="@form("email").value"></p>
-            <p><input type="password" name="password" placeholder="Password"></p>
-            <p><button class="btn" type="submit">Login</button></p>
-            <a href="@routes.Inscription.index()">Nouveau sur Twitter ? Inscrivez-vous</a>
+            <input type="email" name="email" placeholder="Email" 
+                value="@form("email").value" class="input_1">
+            <input type="password" name="password" placeholder="Password" class="input_2">
+            <input type="submit" name="submit" value="">
+            <a href="@routes.Inscription.index()" class="not_yet">Nouveau sur Twitter ? Inscrivez-vous</a>
         }
+        </div>
+        <!--Project Top Start Here --> 
+        <!--CHANGE ONLY UPERE PART IN INNER PAGES--> 
+      </div>
+    </div>
+  </div>
+</div>
+<!--Header End Here--> 
+<!--slider start here--> 
+
+<!--Wrapper Start Here-->
+<div id="wrapper"><!--Top Wrapper End Here--> 
+  <!--Main Contant Start Here-->
+  <div id="main_contant">
+    <div class="center_frame"></div>
+  </div>
+  <!-- Main Contant End Here --> 
+</div>
+<!--Wrapper End Here-->
+
+</body>
         
 		
         

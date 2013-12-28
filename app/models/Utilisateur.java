@@ -2,7 +2,9 @@ package models;
 
 import java.util.Date;
 import java.util.List;
+
 import play.data.format.*;
+
 import javax.persistence.*;
 
 import controllers.MD5Password;
@@ -66,7 +68,9 @@ public class Utilisateur extends Model {
 	public static Utilisateur findByusername(String username){
 		return find.where().eq("username", username).findUnique();
 	}
-	
+	public static Utilisateur findByusernameUnique(String username){
+		return find.where().eq("username", username).findUnique();
+	}
 	public static Utilisateur authenticate(String email, String password) {
 		 String passwordhashe = MD5Password.getEncodedPassword(password);
           return find.where()

@@ -11,7 +11,8 @@ public class Pageperso extends Controller{
 	public static Result index(String username){
 		return ok(index.render("Accueil",
             		Utilisateur.findByusername(username),
-            		Tweet.find.orderBy("label").findList()
+            		Tweet.find.orderBy("label").findList(),
+            		Commentaire.find.findList()
             		));
 		
 	}
