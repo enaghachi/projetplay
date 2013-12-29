@@ -2,7 +2,8 @@
 message: String,
 utilisateur: Utilisateur,
 tweets: List[models.Tweet],
-commentaires: List[models.Commentaire]
+commentaires: List[models.Commentaire],
+abonnements: List[models.Abonnement]
 )
 <!-- index "appelle" main en lui passant en paramètre le titre de la page et le contenu HTML -->
 @main("Gestion des comptes",utilisateur) {
@@ -14,10 +15,10 @@ commentaires: List[models.Commentaire]
         @if(utilisateur != null){
         <ul id="navigation">
           <li><a href="@routes.Pageperso.index(utilisateur.username)"><span>HOME</span></a></li>
-         <li><a href="#"><span>Ma page</span></a></li>
-          <li><a href="#"><span>Mes Amis</span></a></li>
-          <li><a href="services.html"><span>Mes Abonnes</span></a></li>
-          <li><a href="contact.html"><span>Contact</span></a></li>
+         <li><a href="@routes.Perso.index(utilisateur.username)"><span>Ma page</span></a></li>
+          <li><a href="@routes.Abonnements.abonnement(utilisateur.username)"><span>Mes Amis</span></a></li>
+          <li><a href="@routes.Abonnements.abonne(utilisateur.username)"><span>Mes Abonnes</span></a></li>
+          <li><a href="@routes.Profil.contact()"><span>Contact</span></a></li>
         </ul>
         }
         <!--Logo And Navigation End Here--> 
@@ -53,11 +54,11 @@ commentaires: List[models.Commentaire]
         <form method="post" action="/tweet/add">
 				<tr>
 					<td colspan="2" align="center">
-					<textarea cols="50" rows="8" name="label" placeholder="écrire un nouveau Tweet"></textarea>
+					<textarea cols="50" rows="8" name="contenu" placeholder="écrire un nouveau Tweet"></textarea>
 					</td>
 				</tr>
 				<tr>
-					<td><input type="hidden" name="user_email" value="@utilisateur.email"> </td>
+					<td><input type="hidden" name="username" value="@utilisateur.username"> </td>
 					<td align="right" ><input  type="submit" class="button gray medium" value="Publier"> </td>
 				</tr>	
 			</form>
@@ -73,32 +74,65 @@ commentaires: List[models.Commentaire]
       <h2>Les tweets</h2>
       
 			 @for((tweet, i) <- tweets.zipWithIndex.reverse) {
+			 @if(tweet.user.username==utilisateur.username){
 			 <form method="post" action="/tweet/addCommentaire">
 			  <div class="box_2"> <img src="@routes.Assets.at("bootstrap/img/box_2.png")" alt=""  class="main_img_2" />
 				<div class="text">
 				  <h6>@tweet.user.username</h6>
 				  <h5>@tweet.creationDate</h5>
 				   @if(tweet.sujet!=""){
-				  <p>@Html((tweet.label).replace("\n","<br/>"))<a href="@routes.Sujets.affSujet(tweet.sujet)">#@tweet.sujet</a> @tweet.Taguser
+				  <p>@Html((tweet.label).replace("\n","<br/>"))<a href="@routes.Sujets.affSujet(tweet.sujet)">#@tweet.sujet</a> @tweet.Taguser<br/><br /><br />
 				  }else{
-				  <p>@Html((tweet.label).replace("\n","<br/>")) @tweet.Taguser
+				  <p>@Html((tweet.label).replace("\n","<br/>")) @tweet.Taguser<br /><br /><br />
 				  }
-				  <ul>
+				  
 				  @for((commentaire, i)<-commentaires.zipWithIndex.reverse){
-				 	<li>@commentaire.user.username : @commentaire.label </li>
-				 	}
-				  </ul>
+					@if(commentaire.tweet.id==tweet.id){
+						@commentaire.user.username : @commentaire.label <br />
+					}
+				 }
+				  
 				  <input type="hidden" name="idTweet" value="@tweet.id">
 				  <input type="hidden" name="username" value="@utilisateur.username">
 				  <textarea cols="50" rows="3" name="commentaire" placeholder="Mettre un commentaire"></textarea>
 				  <input  type="submit" class="button gray medium" value="Publier"></p>
-				  </form>
+				</div>        
+			  </div> 
+			</form>
+			 }
+			 @for((user,i) <- abonnements.zipWithIndex.reverse){
+			 @if(user.username_ajout==utilisateur.username){
+			 @if(user.username_ajout==tweet.user.username ){
+			 <form method="post" action="/tweet/addCommentaire">
+			  <div class="box_2"> <img src="@routes.Assets.at("bootstrap/img/box_2.png")" alt=""  class="main_img_2" />
+				<div class="text">
+				  <h6>@tweet.user.username</h6>
+				  <h5>@tweet.creationDate</h5>
+				   @if(tweet.sujet!=""){
+				  <p>@Html((tweet.label).replace("\n","<br/>"))<a href="@routes.Sujets.affSujet(tweet.sujet)">#@tweet.sujet</a> @tweet.Taguser<br/><br /><br />
+				  }else{
+				  <p>@Html((tweet.label).replace("\n","<br/>")) @tweet.Taguser<br /><br /><br />
+				  }
+				  
+				  @for((commentaire, i)<-commentaires.zipWithIndex.reverse){
+					@if(commentaire.tweet.id==tweet.id){
+						@commentaire.user.username : @commentaire.label <br />
+					}
+				 }
+				  
+				  <input type="hidden" name="idTweet" value="@tweet.id">
+				  <input type="hidden" name="username" value="@utilisateur.username">
+				  <textarea cols="50" rows="3" name="commentaire" placeholder="Mettre un commentaire"></textarea>
+				  <input  type="submit" class="button gray medium" value="Publier"></p>
+				</div>        
+			  </div> 
+			</form>
+			}
+			}
+				}
 				  }
           
-           </div>
            
-          
-	  </div> 
 	  
        
 		</div>

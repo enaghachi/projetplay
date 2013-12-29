@@ -2,25 +2,51 @@
 message: String,
 Utilisateurs: List[models.Utilisateur]
 )
-@main("Gestion des comptes",null) {
-	<h1>Nouveau sur Twitter ? Inscrivez-vous</h1>
-	<h6>@message</h6>
-	<!--  Formulaire d'inscription-->
-	<fieldset>
-		<h2> Nouveau Utilisateur <h2> 
+@main("Inscription",null) {
+	  <!--Top Header End Here-->
+  <div id="logo_nav">
+    <div class="bg">
+      <div class="center_frame"> 
+        <!--Logo And Navigation Start Here-->
+        <div class="logo"> <a href="@routes.Application.index()"><img src="@routes.Assets.at("bootstrap/img/logo.png")" alt=""  /></a> </div>
+        <!--Logo And Navigation End Here--> 
+        <!--CHANGE ONLY THIS PART HERE--> 
+        
+        <!--Project Top Start Here -->
+        <div id="register_details">
 		<form method="post" action="/user/add">
-			<input type="text" name="username" placeholder="username"><br>
-			<select name ="sexe">
+		<h6> Inscription <h6> 
+		
+			<input type="text" name="username" placeholder="username" class="input_1">
+			<input type="email" name="email" placeholder="Email" class="input_4">
+			
+			<select name ="sexe" class="input_3">
 			<option value="male">Male</option>
-			<option value="female">Female</option></select><br>
-			<input type="email" name="email" placeholder="Email"><br>
-			<input type="password" name="password" placeholder="password"><br>
-			<button type="submit" class="btn">S'inscrire sur Twitter</button>
+			<option value="female">Female</option></select>
+			
+			<input type="password" name="password" placeholder="password" class="input_2">
+			<input type="submit" name="submit" value="" class="register_img"  />
 		</form>
-	</fieldset>
-	<ul>
-	@for(utilisateur <- Utilisateurs) {
-                <li>@utilisateur.email  @utilisateur.username @utilisateur.password @utilisateur.date_inscription  </li>
-            }
-            </ul>
+        </div>
+        <!--Project Top Start Here --> 
+        <!--CHANGE ONLY UPERE PART IN INNER PAGES--> 
+      </div>
+    </div>
+  </div>
+</div>
+<!--Header End Here--> 
+<!--slider start here--> 
+
+<!--Wrapper Start Here-->
+<div id="wrapper"><!--Top Wrapper End Here--> 
+  <!--Main Contant Start Here-->
+  <div id="main_contant">
+    <div class="center_frame"></div>
+  </div>
+  <!-- Main Contant End Here --> 
+</div>
+<!--Wrapper End Here-->
+
+</body>
+
 	}

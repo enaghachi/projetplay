@@ -60,6 +60,9 @@ public class Tweet extends Model {
 	
 	public static void supprimer(Long id){
 		Tweet tweet =Ebean.find(Tweet.class).select("*").where().idEq(id).findUnique();
+		
+		List commentaires =Ebean.find(Commentaire.class).select("*").where().eq("tweet", tweet).findList();
+		Ebean.delete(commentaires);
 		Ebean.delete(tweet);
 	 }
 

@@ -51,10 +51,12 @@ public class Profil extends Controller {
         	 }
          }
      }
-		public static Result modification(){
-			return ok(profilmodif.render("page profil",
-					Utilisateur.findByEmail(session("email"))));
-		}
+	public static Result contact(){
+		return ok(contact.render("Nous contacte:",
+					Utilisateur.findByEmail(session("email"))
+				)
+				);
+	}
 	 
 
 }

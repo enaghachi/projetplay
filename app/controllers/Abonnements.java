@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import models.Abonnement;
+import models.Commentaire;
 import models.Tweet;
 import models.Utilisateur;
 import play.data.DynamicForm;
@@ -36,10 +37,11 @@ public class Abonnements extends Controller {
  		}
      
 	     return  ok(perso.render("Profil de :",
-	     		Utilisateur.findByusername(requestfdata.get("email_ajout")),
+	     		Utilisateur.findByusername(requestfdata.get("connectuser")),
 	    		Tweet.findByusername(requestfdata.get("username_ajout")),
 	    		userconnec,
-	    		isEditable
+	    		isEditable,
+	    		Commentaire.find.findList()
 	    		));   
 	    }
 	 
@@ -48,7 +50,8 @@ public class Abonnements extends Controller {
 		 return ok(abonnement.render("Liste d'abonnements :",
 				 abonnements,
 				 null,
-				 Utilisateur.findByEmail(session("email"))));	 
+				 Utilisateur.findByEmail(session("email")),
+				 Utilisateur.findByusername(username)));	 
 	 }
 	 
 	 public static Result abonne(String username){
@@ -56,7 +59,8 @@ public class Abonnements extends Controller {
 		 return ok(abonnement.render("Liste des Abonnés :",
 				 null,
 				 abonnes,
-				 Utilisateur.findByEmail(session("email"))));	 
+				 Utilisateur.findByEmail(session("email")),
+				 Utilisateur.findByusername(username)));	 
 	 }
 
 }
