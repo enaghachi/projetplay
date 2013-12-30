@@ -3,41 +3,125 @@ message: String,
 profutilisateur: Utilisateur,
 tweets: List[models.Tweet],
 connectuser: Utilisateur,
-isEditable: Boolean 
+isEditable: Boolean,
+commentaires: List[models.Commentaire]
 )
 @main("Gestion des comptes",connectuser) {
+<div id="logo_nav">
+    <div class="bg1">
+      <div class="center_frame"> 
+        <!--Logo And Navigation Start Here-->
+        <div class="logo"> <img src="@routes.Assets.at("bootstrap/img/logo.png ")" alt=""  /> </div>
+        @if(profutilisateur != null){
+        <ul id="navigation">
+          <li><a href="@routes.Pageperso.index(connectuser.username)"><span>HOME</span></a></li>
+		  @if(profutilisateur.username==connectuser.username){
+         <li><a href="@routes.Pageperso.modification(connectuser.username)"><span>Modifier</span></a></li>
+          <li><a href="@routes.Abonnements.abonnement(connectuser.username)"><span>Mes Amis</span></a></li>
+          <li><a href="@routes.Abonnements.abonne(connectuser.username)"><span>Mes Abonnes</span></a></li>
+		 }else{
+         <li><a href="@routes.Perso.index(connectuser.username)"><span>Ma page</span></a></li>
+          <li><a href="@routes.Abonnements.abonnement(profutilisateur.username)"><span>Ses Amis</span></a></li>
+          <li><a href="@routes.Abonnements.abonne(profutilisateur.username)"><span>Ses Abonnes</span></a></li>
+		 }
 
-<h3> @message @profutilisateur.username<span>(@profutilisateur.email)</span> </h3>
-
-<fieldset>
-<h4>Tweets</h4>
- <table class="table table-striped">
-        
-                <tr>                     
-                        <td>Date</td>
-                        <td>Tweet</td>
-                </tr>
-                
-        @for((tweet, i) <- tweets.zipWithIndex.reverse) {
-                <tr>
-                        <td>@tweet.creationDate</td>
-                        <td>@tweet.label</td>
-                </tr>
+           <li><a href="@routes.Profil.contact()"><span>Contact</span></a></li>
+        </ul>
         }
-        </table>
-</fieldset>
+        <!--Logo And Navigation End Here--> 
+        <!--slider here-->
+        
+        <!--  Outer wrapper for presentation only, this can be anything you like -->
+        <div id="infoPerson"> 
+			<table>
+			<tr><td id="name_bien">@message @profutilisateur.username<span>(@profutilisateur.email)</span></td></tr>
+			</table>
+        </div>
+        <!-- End outer wrapper --> 
+        
+        <!--slider end here--> 
+        
+      </div>
+    </div>
+  </div>
+</div>
+<!--Header End Here--> 
 
+  <!--Main Contant Start Here-->
+  <div id="main_contant">
+    <div class="center_frame">
+      <h2>Les tweets</h2>
+      
+			 @for((tweet, i) <- tweets.zipWithIndex.reverse) {
+				 @if(tweet.user.username==profutilisateur.username){
+				 <form method="post" action="/tweet/addCommentaire">
+				  <div class="box_2"> <img src="@routes.Assets.at("bootstrap/img/box_2.png")" alt=""  class="main_img_2" />
+					<div class="text">
+					  <h6>@tweet.user.username</h6>
+					  <h5>@tweet.creationDate</h5>
+					   @if(tweet.sujet!=""){
+					  <p>@Html((tweet.label).replace("\n","<br/>"))<a href="@routes.Sujets.affSujet(tweet.sujet)">#@tweet.sujet</a> @tweet.Taguser<br/><br /><br />
+					  }else{
+					  <p>@Html((tweet.label).replace("\n","<br/>")) @tweet.Taguser<br /><br /><br />
+					  }
+					  
+						  @for((commentaire, i)<-commentaires.zipWithIndex.reverse){
+							@if(commentaire.tweet.id==tweet.id){
+								@commentaire.user.username : @commentaire.label <br />
+							}
+						 }
+					  
+					  <input type="hidden" name="idTweet" value="@tweet.id">
+					  <input type="hidden" name="username" value="@profutilisateur.username">
+					  <textarea cols="50" rows="3" name="commentaire" placeholder="Mettre un commentaire"></textarea>
+					  <input  type="submit" class="button gray medium" value="Publier"></p>
+					</div> 
+					</form>
+					@if(profutilisateur.username==connectuser.username){
+						@helper.form(routes.Tweets.deletTweet(tweet.id)){
+							<input type="hidden" name="uusername" value="@connectuser.username">
+							<input type="submit" value="Supprimer" class="supprimerB">
+						}
+					}				
+				  </div> 
+				
+				}
+			}
+          
+           
+	  
+       
+		</div>
+	  </div>
 
-<a href="@routes.Abonnements.abonnement(profutilisateur.username)">Abonnements</a></br>
-<a href="@routes.Abonnements.abonne(profutilisateur.username)">Abonnés</a>
-
-
-@if(connectuser == profutilisateur || isEditable == false ){
-
-}else{
-<form method="post" action="/abonne/add">
+  <!-- Main Contant End Here --> 
+</div>
+<!--Wrapper End Here--><div id="footer">
+ 
+  <div id="copyrights">
+	@if(connectuser == profutilisateur || isEditable == false ){
+    <div><p>Les nom de notre groupe et membre</p></div>
+	}else{
+		<form method="post" action="/abonne/add">
+			<input type="hidden" name="connectuser" value="@connectuser.username">
 			<input type="hidden" name="username_ajout" value="@profutilisateur.username">
-			<button type="submit" class="btn">Faire suivre</button>	
-</form>
-}
+			<div><button type="submit" class="button gray medium">Faire suivre</button><div>	
+		</form>
+	}
+  </div>
+</div>
+</div>
+
+
+
+
+
+
+     @if(flash.containsKey("error")) {
+        <div class="alert alert-error"> <!-- ceci est un style twitter bootstrap -->
+            <strong>Oups!</strong> @flash.get("error")
+        </div>
+    }
+
+
 }

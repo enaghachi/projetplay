@@ -24,14 +24,18 @@ GET		/perso/:username								controllers.Pageperso.index(username)
 GET		/search/:recherche						controllers.Profil.index(recherche)
 #Profil
 GET		/Profil/:username							controllers.Perso.index(username)
-#GET		/profil/:username 					controllers.Profil.modification(username)
+GET		/persoMofi/:username 					controllers.Pageperso.modification(username)
 GET		/sujetlist/:sujet						controllers.Sujets.affSujet(sujet)
+POST	/perso/:id									controllers.Tweets.deletTweet(id: Long)
+
+
 #Abonnement
 GET    /abonnement/:username                                   	     controllers.Abonnements.abonnement(username)
 GET    /abonne/:username                                   	     controllers.Abonnements.abonne(username)
 POST   /abonne/add                                       controllers.Abonnements.add()
 
-
+#contact
+GET		/contact										controllers.Profil.contact()
 
 # Map static resources from the /public folder to the /assets URL path
 GET     /assets/*file               controllers.Assets.at(path="/public", file)

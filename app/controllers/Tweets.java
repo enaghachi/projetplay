@@ -62,8 +62,10 @@ public class Tweets extends Controller {
 		 return redirect(routes.Pageperso.index(username));
      }
 	 public static Result deletTweet(long id){
+		 DynamicForm requestfdata = Form.form().bindFromRequest();
 		 Tweet.supprimer(id);
-		 return redirect(routes.Pageperso.index(session("username")));
+		 //return ok("ok");
+		 return redirect(routes.Perso.index(requestfdata.get("uusername")));
 	 }
 	 public static Result addCommentaire(){
 		 DynamicForm requestfdata = Form.form().bindFromRequest();

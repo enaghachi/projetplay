@@ -1,11 +1,11 @@
 package controllers;
 
 import java.util.Date;
+
 import models.Utilisateur;
 import play.mvc.*;
 import play.data.DynamicForm;
 import play.data.Form;
-
 import views.html.*;
 
 public class Utilisateurs extends Controller{
@@ -25,15 +25,27 @@ public class Utilisateurs extends Controller{
 
 }
 	public static Result modifier(){
-		 DynamicForm requestfdata = Form.form().bindFromRequest();
+		DynamicForm requestfdata = Form.form().bindFromRequest();
 		 Utilisateur user = Utilisateur.findByEmail(session("email"));
-		 String passwordhashe =requestfdata.get("password");
-		 user.password = passwordhashe;
-		 user.username = requestfdata.get("username"); 
-		 user.description=requestfdata.get("description");
 		
-		 user.save();
-		 	return redirect(routes.Pageperso.index(session("email")));
+
+		 if(requestfdata.get("password")!=""){
+			 String passwordhashe = MD5Password.getEncodedPassword(requestfdata.get("password"));
+		 	user.password = passwordhashe;
+		 	user.save();
+		 }else{
+			 user.password=user.password;
+			 user.save();
+		 }
+		 if(requestfdata.get("description")!=""){
+			 user.description=requestfdata.get("description");
+			 user.save();
+		 }else {
+			 user.description=user.description;
+			 user.save();
+		 }
+		 
+		 	return redirect(routes.Pageperso.index(requestfdata.get("username")));
 	}
 
 }

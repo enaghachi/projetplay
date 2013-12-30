@@ -1,5 +1,6 @@
 package controllers;
 
+import models.Commentaire;
 import models.Tweet;
 import models.Utilisateur;
 import play.mvc.Controller;
@@ -12,6 +13,8 @@ public class Sujets extends Controller{
 		return ok(sujetlist.render("page sujet",
 				s,
 				Utilisateur.findByEmail(session("email")),
-				Tweet.findBySujet(s)));
+				Tweet.findBySujet(s),
+				Commentaire.find.findList()
+				));
 	}
 }

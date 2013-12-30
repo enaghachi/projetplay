@@ -27,7 +27,8 @@ public class Perso extends Controller{
     		Utilisateur.find.byId(username),
     		Tweet.findByusername(username),
     		Utilisateur.findByEmail(session("email")),
-    		isEditable
+    		isEditable,
+    		Commentaire.find.findList()
     		));
 }
 
