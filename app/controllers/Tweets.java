@@ -4,8 +4,10 @@ package controllers;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import java.util.List;
 import models.Commentaire;
+import com.fasterxml.jackson.databind.JsonNode;
+import play.libs.Json;
 import models.Tweet;
 import models.Utilisateur;
 import play.mvc.*;
@@ -79,5 +81,21 @@ public class Tweets extends Controller {
 		 comm.save();
 		 return redirect(routes.Pageperso.index(username));
 	 }
+	 
+	  public static Result listTweetsFromTo()
+	    {
+	            System.out.println(request().getHeader(ACCEPT));
+	            if(request().accepts("application/json"))
+	            {
+	                    JsonNode body = request().body().asJson();
+	                    System.out.println(body);
+	                    int from = body.get("from").asInt();
+	                int to =  body.get("to").asInt();
+	                List<Tweet> tweets = Tweet.findNext(from, to);
+	                System.out.println(Json.toJson(tweets));
+	                return ok(Json.toJson(tweets));
+	            }
+	            return badRequest();
+	    }
 
 }

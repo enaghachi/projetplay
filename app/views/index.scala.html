@@ -60,6 +60,7 @@ abonnements: List[models.Abonnement]
 				<tr>
 					<td><input type="hidden" name="username" value="@utilisateur.username"> </td>
 					<td align="right" ><input  type="submit" class="button gray medium" value="Publier"> </td>
+					<tr><td align="right"><button class="btn btn-more" type ="button">More Tweets</button></td></tr>
 				</tr>	
 			</form>
 		</table>
@@ -74,7 +75,7 @@ abonnements: List[models.Abonnement]
       <h2>Les tweets</h2>
       
 			 @for((tweet, i) <- tweets.zipWithIndex.reverse) {
-			 @if(tweet.user.username==utilisateur.username){
+			 
 			 <form method="post" action="/tweet/addCommentaire">
 			  <div class="box_2"> <img src="@routes.Assets.at("bootstrap/img/box_2.png")" alt=""  class="main_img_2" />
 				<div class="text">
@@ -99,7 +100,7 @@ abonnements: List[models.Abonnement]
 				</div>        
 			  </div> 
 			</form>
-			 }
+			 
 			 @for((user,i) <- abonnements.zipWithIndex.reverse){
 			 @if(user.username_ajout==utilisateur.username){
 			 @if(user.username_ajout==tweet.user.username ){
@@ -161,3 +162,33 @@ abonnements: List[models.Abonnement]
        
 
 }
+<script type="text/javascript">
+$(document).ready(function($){
+
+
+        $("body").ajaxError(function(event, jqXHR, ajaxSettings, thrownError){
+            alert("ERROR : " + thrownError);
+            location.reload();
+        });
+        
+     $btnMoreTweets = $(".btn-more");
+
+
+         $btnMoreTweets.click(function(event) {
+            $this = $(this);
+                alert("more button pressed");
+                 $.ajax({
+                type: 'POST',
+                url: "@routes.Tweets.listTweetsFromTo()",
+                contentType: "application/json; charset=UTF-8",
+                data: JSON.stringify({"from":@tweets.size(), "to":5}),
+                success: function(data){
+                        var obj = eval(data);
+                        alert(obj[0].id);
+                   }
+                   })
+               });
+        
+});
+</script>
+

@@ -11,6 +11,7 @@ POST	/user/add 		controllers.Utilisateurs.add()
 POST	/user/modifier 		controllers.Utilisateurs.modifier()
 POST	/tweet/add 		controllers.Tweets.add()
 POST	/tweet/addCommentaire	controllers.Tweets.addCommentaire()
+POST        /moretweets                                        controllers.Tweets.listTweetsFromTo()
 
 # Authentication
 GET     /login                              controllers.Authentication.login()
