@@ -50,6 +50,42 @@ public class Tweet extends Model {
 	public static List<Tweet> findByusername(String username) {
         return find.where().eq("Tweet_userID", username).findList();
     }
+	/* Pour more tweet il faut il faut modifier findByusername de la maniere suivante: 
+	public static List<Tweet> findByusername(String username) {
+        return find.where().eq("Tweet_userID", username).setMaxRows(3).findList();
+    } pour le moment il ne fonctionne pas :je pense que c'est un probléme de redirection voir méthode
+     		listTweetsFromTo() dans controller Tweets*/
+	
+	public static List<Tweet> ajoutTweetAmis(String Username){
+
+
+         List<Abonnement> listdeabonnement =Abonnement.findByProprioUsername(Username);
+
+         List<Tweet> listTweetuserconnec = Tweet.findByusername(Username);
+
+         List<Tweet> listTweetabonnuser;
+
+         for(int i=0; i< listdeabonnement.size();i++){
+
+        	 listTweetabonnuser = Tweet.findByusername(listdeabonnement.get(i).username_ajout);
+
+        	 for(int j=0;j<listTweetabonnuser.size();j++){
+        		 if(listTweetabonnuser.get(j).creationDate.compareTo(listdeabonnement.get(i).date_ajout)>0)
+        			 	listTweetuserconnec.add(listTweetabonnuser.get(j));
+
+  			}
+
+         }
+
+         return listTweetuserconnec;
+
+	}
+
+public static List<Tweet> findNext(int from, int nb)
+{
+        return find.setFirstRow(from).setMaxRows(nb).findList();
+}
+	
 	//lister les tweet avec ce sujet
 	public static List<Tweet> findBySujet(String sujet) {
 		return find.where().eq("sujet",sujet).findList();
