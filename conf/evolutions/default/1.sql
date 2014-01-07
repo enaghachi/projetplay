@@ -20,6 +20,12 @@ create table commentaire (
   constraint pk_commentaire primary key (id))
 ;
 
+create table image (
+  idimage                   integer not null,
+  file_path                 varchar(2000),
+  constraint pk_image primary key (idimage))
+;
+
 create table tweet (
   id                        bigint not null,
   num                       integer,
@@ -38,6 +44,7 @@ create table utilisateur (
   date_inscription          timestamp,
   password                  varchar(255),
   description               varchar(255),
+  images                    integer,
   constraint uq_utilisateur_1 unique (email),
   constraint pk_utilisateur primary key (username))
 ;
@@ -45,6 +52,8 @@ create table utilisateur (
 create sequence abonnement_seq;
 
 create sequence commentaire_seq;
+
+create sequence image_seq;
 
 create sequence tweet_seq;
 
@@ -58,6 +67,8 @@ alter table commentaire add constraint fk_commentaire_tweet_3 foreign key (Comm_
 create index ix_commentaire_tweet_3 on commentaire (Comm_tweetID);
 alter table tweet add constraint fk_tweet_user_4 foreign key (Tweet_userID) references utilisateur (username) on delete restrict on update restrict;
 create index ix_tweet_user_4 on tweet (Tweet_userID);
+alter table utilisateur add constraint fk_utilisateur_images_5 foreign key (images) references image (idimage) on delete restrict on update restrict;
+create index ix_utilisateur_images_5 on utilisateur (images);
 
 
 
@@ -69,6 +80,8 @@ drop table if exists abonnement;
 
 drop table if exists commentaire;
 
+drop table if exists image;
+
 drop table if exists tweet;
 
 drop table if exists utilisateur;
@@ -78,6 +91,8 @@ SET REFERENTIAL_INTEGRITY TRUE;
 drop sequence if exists abonnement_seq;
 
 drop sequence if exists commentaire_seq;
+
+drop sequence if exists image_seq;
 
 drop sequence if exists tweet_seq;
 

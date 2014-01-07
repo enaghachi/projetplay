@@ -6,6 +6,7 @@ import java.util.List;
 import play.data.format.*;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 
 import controllers.MD5Password;
 import play.data.validation.Constraints;
@@ -41,11 +42,16 @@ public class Utilisateur extends Model {
 	@OneToMany(mappedBy="user")  //un User pour plusieurs tweet, "mappedBy" qui référence le nom de l'attribut User dans la classe Event
 	private List<Tweet> TweetList;
 	
+	@Valid
+	@OneToOne(cascade=CascadeType.ALL)
+	@JoinColumn(name="images", referencedColumnName="idimage")
+	public Image images;
+	
 	public Utilisateur(){		
 	}
 	
 	  public Utilisateur(String username, String password, String sexe,
-			String adresseemail, Date date_inscription, String desc) {
+			String adresseemail, Date date_inscription, String desc,Image images) {
 		super();
 		this.username = username;
 		this.password = password;
@@ -53,7 +59,7 @@ public class Utilisateur extends Model {
 		this.email = adresseemail;
 		this.date_inscription = date_inscription;
 		this.description = desc;
-		
+		this.images = images;
 	}
 	  
 	public static Finder<String, Utilisateur> find = new Finder<String, Utilisateur>(String.class, Utilisateur.class);

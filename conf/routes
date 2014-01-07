@@ -27,7 +27,9 @@ GET		/search/:recherche						controllers.Profil.index(recherche)
 GET		/Profil/:username							controllers.Perso.index(username)
 GET		/persoMofi/:username 					controllers.Pageperso.modification(username)
 GET		/sujetlist/:sujet						controllers.Sujets.affSujet(sujet)
+GET 	/persoMofi/images/:idimage             controllers.Pageperso.getImage(idimage:Integer)
 POST	/perso/:id									controllers.Tweets.deletTweet(id: Long)
+POST    /persoMofi/:username/image                 controllers.Pageperso.receiveImage(username)
 
 
 #Abonnement
