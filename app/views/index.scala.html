@@ -52,98 +52,41 @@ abonnements: List[models.Abonnement]
       <div class="section_left">
         <h5>Nouveau Tweet</h5>
       </div>
-      <div class="section_middle">
-      
+      <div class="section_middle"> 
         <table>
-        <form method="post" action="/tweet/add">
+        	<form method="post" action="/tweet/add">
 				<tr>
 					<td colspan="2" align="center">
-					<textarea cols="50" rows="8" name="contenu" placeholder="écrire un nouveau Tweet"></textarea>
+						<textarea cols="50" rows="8" name="contenu" placeholder="écrire un nouveau Tweet"></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td><input type="hidden" name="username" value="@utilisateur.username"> </td>
-					<td align="right" ><input  type="submit" class="button gray medium" value="Publier"> </td>
-					<tr><td align="right"><button class="btn btn-more" type ="button">More Tweets</button></td></tr>
+					<td align="right" ><input  type="submit" class="button gray medium" value="Publier"> </td>					
 				</tr>	
 			</form>
-		</table>
-	  	
+		</table>	  	
       </div>
     </div>
   </div>
     <!--Top Wrapper End Here--> 
-  <!--Main Contant Start Here-->
+	
+    <!--Main Contant Start Here-->
   <div id="main_contant">
     <div class="center_frame">
       <h2>Les tweets</h2>
-      
-    	 @for((tweet, i) <- tweets.zipWithIndex.reverse) {
-			 
-			 <form method="post" action="/tweet/addCommentaire">
-			  <div class="box_2"> <img src="@routes.Assets.at("bootstrap/img/box_2.png")" alt=""  class="main_img_2" />
-				<div class="text">
-				  <h6>@tweet.user.username</h6>
-				  <h5>@tweet.creationDate</h5>
-				   @if(tweet.sujet!=""){
-				  <p>@Html((tweet.label).replace("\n","<br/>"))<a href="@routes.Sujets.affSujet(tweet.sujet)">#@tweet.sujet</a> @tweet.Taguser<br/><br /><br />
-				  }else{
-				  <p>@Html((tweet.label).replace("\n","<br/>")) @tweet.Taguser<br /><br /><br />
-				  }
-				  
-				  @for((commentaire, i)<-commentaires.zipWithIndex.reverse){
-					@if(commentaire.tweet.id==tweet.id){
-						@commentaire.user.username : @commentaire.label <br />
-					}
-				 }
-				  
-				  <input type="hidden" name="idTweet" value="@tweet.id">
-				  <input type="hidden" name="username" value="@utilisateur.username">
-				  <textarea cols="50" rows="3" name="commentaire" placeholder="Mettre un commentaire"></textarea>
-				  <input  type="submit" class="button gray medium" value="Publier"></p>
-				</div>        
-			  </div> 
+			<form method="post" action="/tweet/addCommentaire">
+			<div class="box_1">
+			</div> 	 
 			</form>
-			 
-			 @for((user,i) <- abonnements.zipWithIndex.reverse){
-			 @if(user.username_ajout==utilisateur.username){
-			 @if(user.username_ajout==tweet.user.username ){
-			 <form method="post" action="/tweet/addCommentaire">
-			  <div class="box_2"> <img src="@routes.Assets.at("bootstrap/img/box_2.png")" alt=""  class="main_img_2" />
-				<div class="text">
-				  <h6>@tweet.user.username</h6>
-				  <h5>@tweet.creationDate</h5>
-				   @if(tweet.sujet!=""){
-				  <p>@Html((tweet.label).replace("\n","<br/>"))<a href="@routes.Sujets.affSujet(tweet.sujet)">#@tweet.sujet</a> @tweet.Taguser<br/><br /><br />
-				  }else{
-				  <p>@Html((tweet.label).replace("\n","<br/>")) @tweet.Taguser<br /><br /><br />
-				  }
-				  
-				  @for((commentaire, i)<-commentaires.zipWithIndex.reverse){
-					@if(commentaire.tweet.id==tweet.id){
-						@commentaire.user.username : @commentaire.label <br />
-					}
-				 }
-				  
-				  <input type="hidden" name="idTweet" value="@tweet.id">
-				  <input type="hidden" name="username" value="@utilisateur.username">
-				  <textarea cols="50" rows="3" name="commentaire" placeholder="Mettre un commentaire"></textarea>
-				  <input  type="submit" class="button gray medium" value="Publier"></p>
-				</div>        
-			  </div> 
-			</form>
-			}
-			}
-				}
-				  }
-          
-           
-	  
-       
-		</div>
-	  </div>
+			<button  id="Loadmore" value="@utilisateur.username">Loadmore</button>
+			<input type="hidden" name="userconnect" id="userconnect" value="@utilisateur.username"/>
+			<div class="errormessage"></div>
+			        			
+	</div>
+  </div>
 
-  <!-- Main Contant End Here --> 
+ <!-- Main Contant End Here --> 
 </div>
 <!--Wrapper End Here--><div id="footer">
  
@@ -153,11 +96,6 @@ abonnements: List[models.Abonnement]
 </div>
 </div>
 
-
-
-
-
-
      @if(flash.containsKey("error")) {
         <div class="alert alert-error"> <!-- ceci est un style twitter bootstrap -->
             <strong>Oups!</strong> @flash.get("error")
@@ -166,33 +104,3 @@ abonnements: List[models.Abonnement]
        
 
 }
-<script type="text/javascript">
-$(document).ready(function($){
-
-
-        $("body").ajaxError(function(event, jqXHR, ajaxSettings, thrownError){
-            alert("ERROR : " + thrownError);
-            location.reload();
-        });
-        
-     $btnMoreTweets = $(".btn-more");
-
-
-         $btnMoreTweets.click(function(event) {
-            $this = $(this);
-                alert("more button pressed");
-                 $.ajax({
-                type: 'POST',
-                url: "@routes.Tweets.listTweetsFromTo()",
-                contentType: "application/json; charset=UTF-8",
-                data: JSON.stringify({"from":@tweets.size(), "to":5}),
-                success: function(data){
-                        var obj = eval(data);
-                        alert(obj[0].id);
-                   }
-                   })
-               });
-        
-});
-</script>
-

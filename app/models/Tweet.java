@@ -26,6 +26,9 @@ public class Tweet extends Model {
 	@JoinColumn(name="Tweet_userID")
 	public Utilisateur user;
 	
+	@OneToMany(mappedBy="tweet")  //un User pour plusieurs tweet, "mappedBy" qui référence le nom de l'attribut User dans la classe Event
+	private List<Commentaire> commentList;
+
 
 	public Tweet() {
 		super();
@@ -50,11 +53,6 @@ public class Tweet extends Model {
 	public static List<Tweet> findByusername(String username) {
         return find.where().eq("Tweet_userID", username).findList();
     }
-	/* Pour more tweet il faut il faut modifier findByusername de la maniere suivante: 
-	public static List<Tweet> findByusername(String username) {
-        return find.where().eq("Tweet_userID", username).setMaxRows(3).findList();
-    } pour le moment il ne fonctionne pas :je pense que c'est un probléme de redirection voir méthode
-     		listTweetsFromTo() dans controller Tweets*/
 	
 	public static List<Tweet> ajoutTweetAmis(String Username){
 
@@ -70,7 +68,9 @@ public class Tweet extends Model {
         	 listTweetabonnuser = Tweet.findByusername(listdeabonnement.get(i).username_ajout);
 
         	 for(int j=0;j<listTweetabonnuser.size();j++){
+			 
         		 if(listTweetabonnuser.get(j).creationDate.compareTo(listdeabonnement.get(i).date_ajout)>0)
+				 
         			 	listTweetuserconnec.add(listTweetabonnuser.get(j));
 
   			}
