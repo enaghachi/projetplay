@@ -6,6 +6,7 @@ sujetTweets: List[models.Tweet],
 commentaires: List[models.Commentaire]
 )
 @main("Sujet",utilisateur) {
+
 <div id="logo_nav">
     <div class="bg1">
       <div class="center_frame"> 
@@ -16,7 +17,7 @@ commentaires: List[models.Commentaire]
           <li><a href="@routes.Pageperso.index(utilisateur.username)"><span>HOME</span></a></li>
          <li><a href="@routes.Perso.index(utilisateur.username)"><span>Ma page</span></a></li>
           <li><a href="@routes.Abonnements.abonnement(utilisateur.username)"><span>Mes Amis</span></a></li>
-          <li><a href="@routes.Abonnements.abonne(utilisateur.username)"><span>Mes Abonnes</span></a></li>
+          <li><a href="@routes.Abonnements.abonne(utilisateur.username)"><span>Mes Abonnés</span></a></li>
           <li><a href="@routes.Profil.contact()"><span>Contact</span></a></li>
         </ul>
         }
@@ -42,12 +43,14 @@ commentaires: List[models.Commentaire]
       </div>
     </div>
   </div>
-</div>
+
 <!--Header End Here--> 
  <!--Main Contant Start Here-->
+ 
+ <div id="content">
 <div id="main_contant">
     <div class="center_frame">
-      <h2>Les tweets avec le sujet :@s</h2>
+      <h2>Les tweets par sujet :@s</h2>
       
 			@for((tweet, i) <- sujetTweets.zipWithIndex.reverse) {
 				@if(tweet.sujet.equals(s)){
@@ -83,16 +86,17 @@ commentaires: List[models.Commentaire]
        
 		</div>
 	  </div>
-
+ </div>
   <!-- Main Contant End Here --> 
-</div>
+
 <!--Wrapper End Here--><div id="footer">
  
   <div id="copyrights">
-    <div><p>Les nom de notre groupe et membre</p></div>
+    <div><p>Projet Tweety</p></div>
   </div>
-</div>
-</div>
+						</div>
+
+
 
 
 

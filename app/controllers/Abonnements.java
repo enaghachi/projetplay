@@ -47,7 +47,7 @@ public class Abonnements extends Controller {
 	 
 	 public static Result abonnement(String username){
 		 List<Abonnement> abonnements = Abonnement.findByProprioUsername(username);
-		 return ok(abonnement.render("Liste d'abonnements :",
+		 return ok(abonnement.render("Liste des abonnements ",
 				 abonnements,
 				 null,
 				 Utilisateur.findByEmail(session("email")),
@@ -56,7 +56,7 @@ public class Abonnements extends Controller {
 	 
 	 public static Result abonne(String username){
 		 List<Abonnement> abonnes = Abonnement.findByAjoutUsername(username);
-		 return ok(abonnement.render("Liste des Abonnés :",
+		 return ok(abonnement.render("Liste des Abonnés ",
 				 null,
 				 abonnes,
 				 Utilisateur.findByEmail(session("email")),

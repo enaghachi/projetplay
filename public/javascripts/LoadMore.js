@@ -4,13 +4,26 @@ $(document).ready(function() {
 
 function bindEventsOnReady() 
 {
+
 	var username;
+//	var tailleTweetdebut=$(".box_1").children().length;
+//	if(tailleTweetdebut==0){
+//		$("#Loadmore").remove();
+//		$(".errormessage").append('<b> Vous n\'avez pas encore Tweeter!!</b>');
+//		
+//	}else{
+//		if(tailleTweetdebut>0||tailleTweetdebut)
+//		$(".errormessage").remove();
+//	}
 	$('#Loadmore').click(function() {
 		username=$(this);
-	    LoadMore(username);
+		LoadMore(username);
 	});
 	
 	BindInitailTweets();
+	
+		
+		
 }
 
 function LoadMore(username){
@@ -59,7 +72,7 @@ function LoadMore(username){
 									{
 										var html2 = 'Les commentaires : <br/>';
 										
-										$(".box_comm"+val.id).append(html2)
+										$(".box_comm"+val.id).prepend(html2)
 									}
 									$.each(data2, function(key2, val2) 
 											{
@@ -75,7 +88,7 @@ function LoadMore(username){
 						html = html + '<textarea cols="50" rows="3" name="commentaire" placeholder="Mettre un commentaire"></textarea>'
 						html = html + '<input  type="submit" class="button gray medium" value="Publier"></p></div></div>'
 						
-						$(".box_1").append(html);
+						$(".box_1").prepend(html);
 							});
 				}else{
 					$("#Loadmore").remove();
@@ -91,29 +104,30 @@ function LoadMore(username){
 function BindInitailTweets(){
 	var userconnect = $('#userconnect').val();
 	
-	console.log(userconnect);
-	console.log("BindInitailTweets");
+	//console.log(userconnect);
+	//console.log("BindInitailTweets");
 	
 	$.get('/tweetsInit',			
 			{'userconnect': userconnect},
 			function(data){
 					$.each(data, function(key, val) 
 							{
-						var html = '<div class="box_2"> <img src="/assets/bootstrap/img/box_2.png" alt=""  class="main_img_2" /><div class="text"'+val.id+'><h6>'+val.user.username+'</h6><br/><h5>'+val.creationDate+'</h5><br/><p>';
+						if(data.length != 0){
+							var html = '<div class="box_2"> <img src="/assets/bootstrap/img/box_2.png" alt=""  class="main_img_2" /><div class="text"'+val.id+'><h6>'+val.user.username+'</h6><br/><h5>'+val.creationDate+'</h5><br/><p>';
 						
-						if(val.sujet != "") {
+							if(val.sujet != "") {
 							
-							html = html +val.label+'<a href="@routes.Sujets.affSujet('+val.sujet+')">#'+val.sujet+'</a>'+val.Taguser+'<br/><br />';
+								html = html +val.label+'<a href="@routes.Sujets.affSujet('+val.sujet+')">#'+val.sujet+'</a>'+val.Taguser+'<br/><br />';
 							
-						}else{
+							}else{
 							
-							html = html + val.label+" "+val.Taguser+'<br /><br />';
-						}
+								html = html + val.label+" "+val.Taguser+'<br /><br />';
+								}
 						
-						html = html + '<div class="box_comm'+val.id+'  ">'
+							html = html + '<div class="box_comm'+val.id+'  ">'
 		
 						
-						$.get('/CommentTweet',
+							$.get('/CommentTweet',
 								
 								{'IDtweet': val.id},
 								
@@ -123,13 +137,13 @@ function BindInitailTweets(){
 									{
 										var html2 = 'Les commentaires : <br/>';
 										
-										$(".box_comm"+val.id).append(html2)
+										$(".box_comm"+val.id).prepend(html2)
 									}
 									$.each(data2, function(key2, val2) 
 											{
-												var html3 = "<b>" + val2.label + "</b> Ecrie par : <b>" + val2.user.username + "</b> Le "+val2.creationDate+'<br/>';
+												var html3 = "<b>" + val2.label + "</b> Ecrit par : <b>" + val2.user.username + "</b> Le "+val2.creationDate+'<br/>';
 												console.log(val2.user.username + " : " + val2.label + ":" + val2.tweet.id);
-												$(".box_comm"+val2.tweet.id).append(html3);
+												$(".box_comm"+val2.tweet.id).prepend(html3);
 											});						
 								});
 						
@@ -139,7 +153,11 @@ function BindInitailTweets(){
 						html = html + '<textarea cols="50" rows="3" name="commentaire" placeholder="Mettre un commentaire"></textarea>'
 						html = html + '<input  type="submit" class="button gray medium" value="Publier"></p></div></div>'
 						
-						$(".box_1").append(html);
+						$(".box_1").prepend(html);
+						}else{
+							$("#Loadmore").remove();
+							$(".errormessage").append('<b> Vous n\'avez pas encore Tweeter!!</b>');
+								}
 							});
 			});
 	} 
