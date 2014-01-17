@@ -6,6 +6,9 @@ userconnect :Utilisateur,
 profutilisateur: Utilisateur
 )
 @main("Gestion des comptes",userconnect) {
+
+
+
 <div id="logo_nav">
     <div class="bg1">
       <div class="center_frame"> 
@@ -17,11 +20,11 @@ profutilisateur: Utilisateur
 		  @if(userconnect.username==profutilisateur.username){
          <li><a href="@routes.Perso.index(userconnect.username)"><span>Ma page</span></a></li>
           <li><a href="@routes.Abonnements.abonnement(userconnect.username)"><span>Mes Amis</span></a></li>
-          <li><a href="@routes.Abonnements.abonne(userconnect.username)"><span>Mes Abonnes</span></a></li>
+          <li><a href="@routes.Abonnements.abonne(userconnect.username)"><span>Mes Abonnés</span></a></li>
 		  }else{
 		  <li><a href="@routes.Perso.index(profutilisateur.username)"><span>Sa page</span></a></li>
           <li><a href="@routes.Abonnements.abonnement(profutilisateur.username)"><span>Ses Amis</span></a></li>
-          <li><a href="@routes.Abonnements.abonne(profutilisateur.username)"><span>Ses Abonnes</span></a></li>
+          <li><a href="@routes.Abonnements.abonne(profutilisateur.username)"><span>Ses Abonnés</span></a></li>
 		  }
           <li><a href="@routes.Profil.contact()"><span>Contact</span></a></li>
         </ul>
@@ -32,8 +35,17 @@ profutilisateur: Utilisateur
         <!--  Outer wrapper for presentation only, this can be anything you like -->
         <div id="infoPerson"> 
 			<table>
-			<tr><td id="name_bien">@message de @profutilisateur.username</td></tr>
-			<tr><td><img url=""></td></tr>
+			@if(userconnect.images!=null){
+					<tr><td width="100" height="100" ><img src="@routes.Pageperso.getImage(userconnect.images.idimage)" alt="" title="" width="100" height="100"/></td></tr>
+			}else{
+					@if(userconnect.sexe.equals("female")){
+							<tr><td width="100" height="100" ><img src="@routes.Assets.at("bootstrap/img/aa.jpeg")" alt=""  width="100" height="100"/></td></tr>
+					}else{
+							<tr><td width="100" height="100" ><img src="@routes.Assets.at("bootstrap/img/aaa.jpeg")" alt=""  width="100" height="100"/></td></tr>
+							}
+						
+			}
+			<tr><td id="name_bien">@message de: @profutilisateur.username</td></tr>
 			<tr><td id="description">@userconnect.description</td></tr>
 			</table>
         </div>
@@ -44,12 +56,13 @@ profutilisateur: Utilisateur
       </div>
     </div>
   </div>
-</div>
+
 <!--Header End Here--> 
  <!--Main Contant Start Here-->
+ <div id="content">
 <div id="main_contant">
     <div class="center_frame">
-      <h2>@message </h2>
+      <h2>@message: </h2>
       
 			<div class="box_2"> 
 				<div class="text">
@@ -79,15 +92,17 @@ profutilisateur: Utilisateur
 			</div> 
 	</div>
 </div>
-<!-- Main Contant End Here -->
 </div>
+<!-- Main Contant End Here -->
+
 <!--Wrapper End Here--><div id="footer">
  
   <div id="copyrights">
-    <div><p>Les nom de notre groupe et membre</p></div>
+    <div><p>Projet Tweety</p></div>
   </div>
-</div>
-</div>
+						</div>
+
+
 
 
 

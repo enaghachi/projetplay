@@ -7,6 +7,8 @@ abonnements: List[models.Abonnement]
 )
 <!-- index "appelle" main en lui passant en paramètre le titre de la page et le contenu HTML -->
 @main("Gestion des comptes",utilisateur) {
+
+
 <div id="logo_nav">
     <div class="bg1">
       <div class="center_frame"> 
@@ -17,7 +19,7 @@ abonnements: List[models.Abonnement]
           <li><a href="@routes.Pageperso.index(utilisateur.username)"><span>HOME</span></a></li>
          <li><a href="@routes.Perso.index(utilisateur.username)"><span>Ma page</span></a></li>
           <li><a href="@routes.Abonnements.abonnement(utilisateur.username)"><span>Mes Amis</span></a></li>
-          <li><a href="@routes.Abonnements.abonne(utilisateur.username)"><span>Mes Abonnes</span></a></li>
+          <li><a href="@routes.Abonnements.abonne(utilisateur.username)"><span>Mes Abonnés</span></a></li>
           <li><a href="@routes.Profil.contact()"><span>Contact</span></a></li>
         </ul>
         }
@@ -27,12 +29,18 @@ abonnements: List[models.Abonnement]
         <!--  Outer wrapper for presentation only, this can be anything you like -->
         <div id="infoPerson"> 
 			<table>
+			<tr><td id="name_bien">Bienvenue @utilisateur.username</td></tr>
 			@if(utilisateur.images!=null){
-			<tr><td width="100" height="100" ><img src="@routes.Pageperso.getImage(utilisateur.images.idimage)" alt="" title="" width="100" height="100"/></td></tr>
+					<tr><td width="100" height="100" ><img src="@routes.Pageperso.getImage(utilisateur.images.idimage)" alt="" title="" width="100" height="100"/></td></tr>
 			}else{
-			<tr><td width="100" height="100" ><img src="@routes.Assets.at("bootstrap/img/aa.jpeg")" alt=""  width="100" height="100"/></td></tr>
+					@if(utilisateur.sexe.equals("female")){
+							<tr><td width="100" height="100" ><img src="@routes.Assets.at("bootstrap/img/aa.jpeg")" alt=""  width="100" height="100"/></td></tr>
+					}else{
+							<tr><td width="100" height="100" ><img src="@routes.Assets.at("bootstrap/img/aaa.jpeg")" alt=""  width="100" height="100"/></td></tr>
+							}
+						
 			}
-			<tr><td id="name_bien">Bienvenu @utilisateur.username</td></tr>
+			
 			<tr><td id="description">@utilisateur.description</td></tr>
 			</table>
         </div>
@@ -43,9 +51,11 @@ abonnements: List[models.Abonnement]
       </div>
     </div>
   </div>
-</div>
+  
+
 <!--Header End Here--> 
 <!--Wrapper Start Here-->
+<div id="content">
 <div id="wrapper">
   <div id="wrapper_top">
     <div class="center_frame">
@@ -88,13 +98,14 @@ abonnements: List[models.Abonnement]
 
  <!-- Main Contant End Here --> 
 </div>
+</div>
 <!--Wrapper End Here--><div id="footer">
  
   <div id="copyrights">
-    <div><p>Les nom de notre groupe et membre</p></div>
+    <div><p>Projet Tweety </p></div>
   </div>
-</div>
-</div>
+						</div>
+
 
      @if(flash.containsKey("error")) {
         <div class="alert alert-error"> <!-- ceci est un style twitter bootstrap -->

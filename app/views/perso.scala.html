@@ -7,6 +7,8 @@ isEditable: Boolean,
 commentaires: List[models.Commentaire]
 )
 @main("Gestion des comptes",connectuser) {
+
+
 <div id="logo_nav">
     <div class="bg1">
       <div class="center_frame"> 
@@ -18,11 +20,11 @@ commentaires: List[models.Commentaire]
 		  @if(profutilisateur.username==connectuser.username){
          <li><a href="@routes.Pageperso.modification(connectuser.username)"><span>Modifier</span></a></li>
           <li><a href="@routes.Abonnements.abonnement(connectuser.username)"><span>Mes Amis</span></a></li>
-          <li><a href="@routes.Abonnements.abonne(connectuser.username)"><span>Mes Abonnes</span></a></li>
+          <li><a href="@routes.Abonnements.abonne(connectuser.username)"><span>Mes Abonnés</span></a></li>
 		 }else{
          <li><a href="@routes.Perso.index(connectuser.username)"><span>Ma page</span></a></li>
           <li><a href="@routes.Abonnements.abonnement(profutilisateur.username)"><span>Ses Amis</span></a></li>
-          <li><a href="@routes.Abonnements.abonne(profutilisateur.username)"><span>Ses Abonnes</span></a></li>
+          <li><a href="@routes.Abonnements.abonne(profutilisateur.username)"><span>Ses Abonnés</span></a></li>
 		 }
 
            <li><a href="@routes.Profil.contact()"><span>Contact</span></a></li>
@@ -34,10 +36,15 @@ commentaires: List[models.Commentaire]
         <!--  Outer wrapper for presentation only, this can be anything you like -->
         <div id="infoPerson"> 
 			<table>
-			@if(connectuser.images!=null){
-			<tr><td width="100" height="100" ><img src="@routes.Pageperso.getImage(connectuser.images.idimage)" alt="" title="" width="100" height="100"/></td></tr>
+			@if(profutilisateur.images!=null){
+					<tr><td width="100" height="100" ><img src="@routes.Pageperso.getImage(profutilisateur.images.idimage)" alt="" title="" width="100" height="100"/></td></tr>
 			}else{
-			<tr><td width="100" height="100" ><img src="@routes.Assets.at("bootstrap/img/aa.jpeg")" alt=""  width="100" height="100"/></td></tr>
+					@if(profutilisateur.sexe.equals("female")){
+							<tr><td width="100" height="100" ><img src="@routes.Assets.at("bootstrap/img/aa.jpeg")" alt=""  width="100" height="100"/></td></tr>
+					}else{
+							<tr><td width="100" height="100" ><img src="@routes.Assets.at("bootstrap/img/aaa.jpeg")" alt=""  width="100" height="100"/></td></tr>
+							}
+						
 			}
 			<tr><td id="name_bien">@message @profutilisateur.username<span>(@profutilisateur.email)</span></td></tr>
 			</table>
@@ -49,10 +56,12 @@ commentaires: List[models.Commentaire]
       </div>
     </div>
   </div>
-</div>
+
 <!--Header End Here--> 
 
   <!--Main Contant Start Here-->
+  
+  <div id="content">
   <div id="main_contant">
     <div class="center_frame">
       <h2>Les tweets</h2>
@@ -97,15 +106,15 @@ commentaires: List[models.Commentaire]
 	  
        
 		</div>
-	  </div>
-
-  <!-- Main Contant End Here --> 
+	  
 </div>
+  <!-- Main Contant End Here --> 
+
 <!--Wrapper End Here--><div id="footer">
  
   <div id="copyrights">
 	@if(connectuser == profutilisateur || isEditable == false ){
-    <div><p>Les nom de notre groupe et membre</p></div>
+    <div><p>Projet Tweety</p></div>
 	}else{
 		<form method="post" action="/abonne/add">
 			<input type="hidden" name="connectuser" value="@connectuser.username">
@@ -115,7 +124,8 @@ commentaires: List[models.Commentaire]
 	}
   </div>
 </div>
-</div>
+
+
 
 
 

@@ -1,7 +1,7 @@
 
 * {
-	margin:0px;
-	padding:0px;
+        margin:0px;
+        padding:0px;
 }
 img {
 	border:none;
@@ -25,7 +25,17 @@ body {
 	background-position:0 0;
 	background-repeat:repeat;
 	background-color:#1b3363;
+	margin:0px;
+	padding:0px;
 }
+
+#canavas {
+     min-height:100%;
+    position:relative;
+  
+}
+
+
 .center_frame {
 	width:960px;
 	margin:0 auto;
@@ -201,6 +211,9 @@ height:19px;
 	font-family:"myriad Pro";
 }
 /*===================================== LOGO AND NAVIGATION CSS ===============*/
+
+
+
 #logo_nav {
 	float:left;
 	width:100%;
@@ -209,6 +222,7 @@ height:19px;
 	background-repeat:repeat-x;
 	position:relative;
 	z-index:99;
+
 }
 #logo_nav .bg {
 	float:left;
@@ -418,6 +432,11 @@ height:19px;
 	float:left;
 	width:100%;
 	margin-top:-1px;
+
+}
+#content{
+	padding:10px;
+    padding-bottom:60px;
 }
 #wrapper_top {
 	float:left;
@@ -673,14 +692,18 @@ height:19px;
 
 
 }
+
 /*===================================== FOOTER CSS ============================*/
-#footer {
+
+#footer {	
+	
+	bottom:0;
 	float:left;
 	width:100%;
 	background-image:url(../img/white_texture.png);
 	background-position:0 0;
 	background-repeat:repeat;
-	height:412px;
+	height:60px;
 	FONT-FAMILY: Comic Sans MS; 
 
 }
@@ -915,6 +938,7 @@ height:19px;
 	
 }
 #copyrights div {
+	
 	width:20%;
 	margin: auto auto;
 	
