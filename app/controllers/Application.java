@@ -89,4 +89,10 @@ public class Application extends Controller {
          }
 	}
 
+	public static Result users(String term){
+	   //String termentre = request().queryString().get("term")[0];
+	   List<Utilisateur> users = Utilisateur.find(term);
+	   return ok(Json.toJson(users));
+   }
+
 }

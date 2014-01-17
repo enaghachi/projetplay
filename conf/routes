@@ -27,6 +27,7 @@ GET		/inscription						controllers.Inscription.index()
 GET		/perso/:username								controllers.Pageperso.index(username)
 #Recherche
 GET		/search/:recherche						controllers.Profil.index(recherche)
+GET     /search                             controllers.Application.users(term: String ?="")
 #Profil
 GET		/Profil/:username							controllers.Perso.index(username)
 GET		/persoMofi/:username 					controllers.Pageperso.modification(username)
